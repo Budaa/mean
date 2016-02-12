@@ -19,7 +19,15 @@ gulp.task('js', function() {
 		.pipe(gulp.dest('assets'))
 })
 
-gulp.task('watch:js', ['js'], function() {
+
+gulp.task('jsdev', function() {
+	gulp.src(['ng/module.js', 'ng/**/*.js'])
+		.pipe(concat('app_dev.js'))
+		.pipe(gulp.dest('assets'))
+})
+
+
+gulp.task('watch:js', ['js', 'jsdev'], function() {
 	gulp.watch('ng/**/*.js', ['js'])
 })
 
