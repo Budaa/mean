@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Mean Stack</title>
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.js"></script>
+	<script src="/app.js"></script>
+</head>
+<body ng-app="app">
+	<div ng-controller="PostsCtrl" class="container">
+		<h1>Recent Posts</h1>
+		<button ng-click="addPost()" class="btn btn-default"> Add Post </button>
+		<input ng-model="postBody" class="form-control" />
+		<ul class="list-group">
+			<li ng-repeat="post in posts" class="list-group-item">
+				<strong>@{{ post.username }}</strong>
+				<span>{{ post.body }}</span>
+			</li>
+		</ul>			
+	</div>
+</body>
+</html>
