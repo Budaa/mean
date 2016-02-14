@@ -1,55 +1,44 @@
 var express = require('express')
 var jwt = require('jwt-simple')
+var app = express()
 var _ = require('lodash')
 var bcrypt = require('bcrypt')
-var User = require('./user')
-var app = express()
 
 app.use(require('body-parser').json())
 
-var users = [{username: 'pbuderaski', password: '$2a$10$hilZtp0bJ5RKbqEEQZGJvu6hWU4V6CWnYZhZqZk60cglcYRz4Mzmu'}]
-var secretKey = 'supersecretkey'
+var secretKey = 'secret'
 
-function findUserByUsername(username) {
+var users = [{username: 'pbuderaski', password: '$2a$10$otzK/1UYOX9axsFJTEnJ3.lYkRa95DeY.y8Y33JGBBx6XnvXYKjU6'}]
+
+function findUserByUsername(username){
 	return _.find(users, {username: username})
 }
 
-function validateUser(user, password, cb) {
-	bcypt.compare(password, user.password, cb)
+function validateUser(user, password, callback) {
+	bcrypt.compare(password, user.password, callback)
 }
 
-app.post('/session', function (req, res, next) {
-	User.findOne({ username: req.body.username })
-		.select('password')
-		.exec(function (err, user) {
-			if (err) { return next(err)}
-			if (!user) { return res.send(401) }
-			bcrypt.compare(req.body.password, user.password, function (err, valid) {
-				if( err ) { return next(err) }
-				if ( !valid ) { return res.send(401)}
-				var token = jwt.encode( { username: user.username }, secretKey)
-				res.json(token)
-			})
-		})
+app.post('/session', function(req, res) {
+	var user = findUserByUsername(req.body.username)
+	validateUser(user, req.body.password, function(err, valid){
+		if(err || !valid) { return res.send(401) }
+		var token = jwt.encode({username: user.username}, secretKey)
+		res.json(token)
+	})	
 })
 
-app.post('/user', function (req, res, next) {
-	var user = new User( {username: req.body.username })
-	bcrypt.hash(req.body.password, 10, function (err, hash) {
-		user.password = hash
-		user.save( function(err) {
-			if (err) { throw next(err) }
-			res.send(201)
-		})
-	})
+app.post('/user', function(req, res) {
+	var token = req.body.token
+	var user = jwt.decode(token, secretKey)
+	res.json(user)
 })
 
-app.get('/user', function (req, res) {
-	var token = req.headers['x-auth']
-	var auth = jwt.decode(token, secretKey)
-	User.findOne({ username: auth.username }, function (err, user) {
-		res.json(user)
-	})
+app.get('/', function(req, res) {
+	res.sendfile('./test.html')
+})
+
+app.get('/app', function(req, res) {
+	res.sendfile('./test.js')
 })
 
 app.listen(3001, function(){

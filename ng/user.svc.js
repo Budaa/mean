@@ -8,7 +8,7 @@ angular.module('app')
 	}
 
 	svc.login = function (username, password) {
-		return $http.post('/api/session', {
+		return $http.post('/api/sessions', {
 			username: username,
 			password: password
 		}).then(function (val) {

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Mean Stack</title>
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular-route.js"></script>
+	<script src="/app"></script>
+</head>
+<body ng-app="test" ng-controller="TestCtrl">
+
+	<button class="btn btn-success" ng-click="getToken()">getToken()</button>{{errmessage}}<br />
+	<input type="password" ng-model="password" />
+	<button class="btn btn-success" ng-click="getUsername()">getUsername()</button>
+	<br />
+	Token: {{token}}<br>
+	User: <span>{{username}}</span>
+</body>
+</html>

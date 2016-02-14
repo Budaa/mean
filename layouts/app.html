@@ -7,7 +7,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular-route.js"></script>
 	<script src="/app.js"></script>
 </head>
-<body ng-app="app">
+<body ng-app="app" ng-controller="ApplicationCtrl">
 
 	<nav class="navbar navbar-default">
 		<div class="container">
@@ -16,6 +16,7 @@
 				<li><a href="/#/register">Register</a></li>
 				<li><a href="/#/login">Login</a></li>
 			</ul>
+			<p ng-if="currentUser" class="navbar-text navbar-right">Signed in ass {{currentUser.username}}</p>
 		</div>
 	</nav>
 

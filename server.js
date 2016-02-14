@@ -1,7 +1,7 @@
 var express = require('express')
 var bodyParser = require('body-parser')
 var app = express()
-var port = 3009
+var port = 3000
 
 //JSon Parser
 app.use(bodyParser.json())
