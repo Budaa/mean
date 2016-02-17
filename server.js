@@ -1,10 +1,15 @@
 var express = require('express')
 var bodyParser = require('body-parser')
 var app = express()
-var port = 3000
+var port = 3001
+
+//AUTH
+app.use(require('./auth'))
 
 //JSon Parser
 app.use(bodyParser.json())
+
+
 
 // ROUTERS
 app.use(require('./controllers/static'))

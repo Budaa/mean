@@ -15,6 +15,8 @@ angular.module('app')
 
 	PostsSvc.fetch().success(function(posts) {
 		$scope.posts = posts
+	}).error(function(){
+		$scope.postserr = "Pleae log in!"
 	})
 })
 
