@@ -2,19 +2,32 @@ var app = angular.module('app', [
 	'ngRoute'
 ])
 angular.module('app')
-.controller('ApplicationCtrl', ['$scope', function($scope){
+.controller('ApplicationCtrl', ['$scope', 'UserSvc', function($scope, UserSvc){
+	if(window.localStorage.token) {
+		UserSvc.setXAuthHeader(window.localStorage.token)
+		UserSvc.getUser()
+			.then(function(user){
+				$scope.$emit('login', user)
+			})
+	}
 	$scope.$on('login', function(_, user) {
 		$scope.currentUser = user
 	})
+	$scope.logout = function() {
+		delete $scope.currentUser
+		delete $scope.posts
+		UserSvc.logout()
+	}
 }])
 
 
 angular.module('app')
-.controller('LoginCtrl', ['$scope', 'UserSvc', function($scope, UserSvc){
+.controller('LoginCtrl', ['$scope', 'UserSvc', '$location', function($scope, UserSvc, $location){
 	$scope.login = function(username, password) {
 		UserSvc.login(username, password)
 			.then(function(response) {
 				$scope.$emit('login', response.data)
+				$location.path('/')
 			})
 	}
 }])
@@ -54,10 +67,10 @@ angular.module('app')
 
 angular.module('app')
 .controller('RegisterCtrl', function($scope, UserSvc){
-	$scope.register = function(){
-		UserSvc.createUser($scope.username, $scope.password)
-			.success(function(){
-				UserSvc.login($scope.username, $scope.password)
+	$scope.register = function(username, password){
+		UserSvc.createUser(username, password)
+			.then(function(user) {
+				$scope.$emit('login', user)
 		})
 	} 
 })
@@ -72,7 +85,7 @@ angular.module('app')
 		
 	})
 angular.module('app')
-.service('UserSvc', function ($http) {
+.service('UserSvc', function ($http, $location) {
 	var svc = this
 	svc.getUser = function () {
 		return $http.get('/api/users')
@@ -83,7 +96,7 @@ angular.module('app')
 			username: username,
 			password: password
 		}).then(function (val) {
-			svc.token = val.data
+			window.localStorage.token = val.data
 			$http.defaults.headers.common['X-Auth'] = val.data
 			return svc.getUser()
 		})
@@ -93,6 +106,17 @@ angular.module('app')
 		return $http.post('/api/users', {
 			username: username,
 			password: password
-		})
+		}).then(function () {
+      		return svc.login(username, password)
+    	})
+	}
+
+	svc.logout = function(){
+		$http.defaults.headers.common['X-Auth'] = ''
+		$location.path('/login')
+	}
+
+	svc.setXAuthHeader = function(header){
+		$http.defaults.headers.common['X-Auth']
 	}
 })

@@ -1,9 +1,9 @@
 angular.module('app')
 .controller('RegisterCtrl', function($scope, UserSvc){
-	$scope.register = function(){
-		UserSvc.createUser($scope.username, $scope.password)
-			.success(function(){
-				UserSvc.login($scope.username, $scope.password)
+	$scope.register = function(username, password){
+		UserSvc.createUser(username, password)
+			.then(function(user) {
+				$scope.$emit('login', user.data)
 		})
 	} 
 })

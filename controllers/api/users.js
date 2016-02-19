@@ -6,7 +6,7 @@ var config = require('../../config')
 
 router.get('/', function (req, res, next) {
 	if (!req.headers['x-auth']) {
-		return res(401)
+		return res.status(401)
 	}
 	var auth = jwt.decode(req.headers['x-auth'], config.secret)
 	User.findOne({ username: auth.username }, function (err, user) {
