@@ -5,9 +5,8 @@ angular.module('app')
 .controller('ApplicationCtrl', ['$scope', 'UserSvc', function($scope, UserSvc){
 	if(window.localStorage.token) {
 		UserSvc.setXAuthHeader(window.localStorage.token)
-		UserSvc.getUser()
 			.then(function(user){
-				$scope.$emit('login', user)
+				$scope.$emit('login', user.data)
 			})
 	}
 	$scope.$on('login', function(_, user) {
@@ -16,6 +15,7 @@ angular.module('app')
 	$scope.logout = function() {
 		delete $scope.currentUser
 		delete $scope.posts
+		delete window.localStorage.token
 		UserSvc.logout()
 	}
 }])
@@ -70,7 +70,9 @@ angular.module('app')
 	$scope.register = function(username, password){
 		UserSvc.createUser(username, password)
 			.then(function(user) {
-				$scope.$emit('login', user)
+				$scope.$emit('login', user.data)
+		}, function(err) {
+			alert(err.data)
 		})
 	} 
 })
@@ -117,6 +119,7 @@ angular.module('app')
 	}
 
 	svc.setXAuthHeader = function(header){
-		$http.defaults.headers.common['X-Auth']
+		$http.defaults.headers.common['X-Auth'] = header
+		return svc.getUser()
 	}
 })

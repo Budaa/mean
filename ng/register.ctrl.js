@@ -4,6 +4,10 @@ angular.module('app')
 		UserSvc.createUser(username, password)
 			.then(function(user) {
 				$scope.$emit('login', user.data)
+		}, function(err) {
+			alert(err.data)
+			$scope.username = ''
+			$scope.password = ''
 		})
 	} 
 })

@@ -1,7 +1,7 @@
 var express = require('express')
 var bodyParser = require('body-parser')
 var app = express()
-var port = 3006
+var port = 3000
 
 //AUTH
 app.use(require('./auth'))
