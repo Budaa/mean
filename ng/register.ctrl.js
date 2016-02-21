@@ -5,7 +5,7 @@ angular.module('app')
 			.then(function(user) {
 				$scope.$emit('login', user.data)
 		}, function(err) {
-			alert(err.data)
+			$scope.registerError = err.data
 			$scope.username = ''
 			$scope.password = ''
 		})

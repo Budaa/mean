@@ -1,4 +1,5 @@
 <div class="container">
+	<span ng-if="registerError" style="color: red;">{{registerError}}</span>
 	<form ng-submit="register(username, password)">
 		<div class="form-group">
 			<label>Username</label>

@@ -73,6 +73,8 @@ angular.module('app')
 				$scope.$emit('login', user.data)
 		}, function(err) {
 			alert(err.data)
+			$scope.username = ''
+			$scope.password = ''
 		})
 	} 
 })
