@@ -3,7 +3,7 @@ angular.module('app')
 	$scope.addPost = function() {
 		if($scope.postBody) {
 			PostsSvc.create({
-				username: 'pbuderaski',
+				username: $scope.currentUser.username,
 				body: $scope.postBody
 
 			}).success(function(post) {

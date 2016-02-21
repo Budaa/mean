@@ -20,7 +20,7 @@ router.post('/', function ( req, res, next) {
 	if (User.findOne({ username: user.username })){
 		return next('Username already exist!')
 	}
-	bcrypt.hash(req.body.password, 10, function ( err, hash) {
+	bcrypt.hash(req.body.password, 10, function (err, hash) {
 		if (err) { return next(err) }
 		user.password = hash
 		user.save(function (err) {
