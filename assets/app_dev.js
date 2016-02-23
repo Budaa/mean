@@ -36,7 +36,7 @@ angular.module('app')
 	$scope.addPost = function() {
 		if($scope.postBody) {
 			PostsSvc.create({
-				username: 'pbuderaski',
+				username: $scope.currentUser.username,
 				body: $scope.postBody
 
 			}).success(function(post) {
@@ -44,6 +44,14 @@ angular.module('app')
 				$scope.postBody = null
 			})
 		}
+	}
+
+	$scope.removePost = function(id) {
+		PostsSvc.deletePost({id: id}).success(function(){
+			alert('Post has been deleted')
+		}).error(function(er){
+			console.log(er)
+		})
 	}
 
 	PostsSvc.fetch().success(function(posts) {
@@ -56,23 +64,38 @@ angular.module('app')
 
 angular.module('app')
 	.service('PostsSvc', function($http){
+
 		this.fetch = function() { 
 			return $http.get('/api/posts')
 		}
 		this.create = function(post) {
 			return $http.post('/api/posts', post)
 		}
+
+		this.deletePost = function(id) {
+			return $http.put('/api/posts', id)
+
+		}
 	})
 
 
 angular.module('app')
 .controller('RegisterCtrl', function($scope, UserSvc){
-	$scope.register = function(username, password){
+	$scope.register = function(username, password, password2){
+		if (!username) {
+			$scope.registerError = "Please, select your username."
+			return null
+		}
+
+		if( password2 != password || !password2) {
+			$scope.registerError = "Passwords don't match"
+			return null
+		}
 		UserSvc.createUser(username, password)
 			.then(function(user) {
 				$scope.$emit('login', user.data)
 		}, function(err) {
-			alert(err.data)
+			$scope.registerError = err.data
 			$scope.username = ''
 			$scope.password = ''
 		})

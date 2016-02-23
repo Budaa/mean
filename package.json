@@ -22,5 +22,8 @@
     "kerberos": "0.0.18",
     "lodash": "^4.3.0",
     "mongoose": "4.4.1"
+  },
+  "devDependencies": {
+    "gulp-uglify": "https://github.com/floridoo/gulp-uglify/tarball/sourcemap_fix"
   }
 }

@@ -13,6 +13,15 @@ angular.module('app')
 		}
 	}
 
+	$scope.removePost = function(id, index) {
+		PostsSvc.deletePost({id: id}).success(function(){
+			alert('Post has been deleted')
+			$scope.posts.splice(index, 1)
+		}).error(function(er){
+			console.log(er)
+		})
+	}
+
 	PostsSvc.fetch().success(function(posts) {
 		$scope.posts = posts
 	}).error(function(){
