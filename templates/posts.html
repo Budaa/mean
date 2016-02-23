@@ -1,4 +1,7 @@
-<div class="container">
+<div ng-show="postserr" class="jumbotron text-center" style="color: red;">
+	<h2>{{postserr}}</h2>
+</div>
+<div ng-hide="postserr" class="container">
 	<h1> Recent Posts</h1>
 	<form role="form">
 		<div class="form-group">
@@ -16,5 +19,4 @@
 			<span style="float: right; cursor: pointer;" ng-click="removePost(post._id, $index)">x</span>
 		</li>
 	</ul>
-	{{postserr}}
 </div>
