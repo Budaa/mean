@@ -21,7 +21,8 @@
     "jwt-simple": "^0.4.1",
     "kerberos": "0.0.18",
     "lodash": "^4.3.0",
-    "mongoose": "4.4.1"
+    "mongoose": "4.4.1",
+    "ws": "^1.0.1"
   },
   "devDependencies": {
     "gulp-uglify": "https://github.com/floridoo/gulp-uglify/tarball/sourcemap_fix"

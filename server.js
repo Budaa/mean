@@ -1,5 +1,6 @@
 var express = require('express')
 var bodyParser = require('body-parser')
+var ws = require('./websockets')
 var app = express()
 var port = 3001
 
@@ -23,6 +24,8 @@ app.use('/api/posts', require('./controllers/api/posts'))
 
 
 //LISTEN
-app.listen(port, function() {
+var server = app.listen(port, function() {
 	console.log('Server listening on port ' + port)
 })
+
+ws.connect(server)
