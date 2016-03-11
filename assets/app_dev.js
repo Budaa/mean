@@ -43,6 +43,7 @@ angular.module('app')
 				body: $scope.postBody
 
 			}).success(function(post) {
+				post.username = {username: $scope.currentUser.username}
 				$scope.posts.unshift(post)
 				$scope.postBody = null
 			})
@@ -53,8 +54,8 @@ angular.module('app')
 		PostsSvc.deletePost({id: id}).success(function(){
 			alert('Post has been deleted')
 			$scope.posts.splice(index, 1)
-		}).error(function(er){
-			console.log(er)
+		}).error(function(err){
+			console.log(err)
 		})
 	}
 
@@ -69,11 +70,10 @@ angular.module('app')
 angular.module('app')
 	.service('PostsSvc', function($http){
 
-		this.fetch = function() { 
-			return $http.get('/api/posts')
+		this.fetch = function(id) { 
+			return $http.get('/api/posts', id)
 		}
 		this.create = function(post) {
-			console.log(post)
 			return $http.post('/api/posts', post)
 		}
 

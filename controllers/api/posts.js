@@ -1,6 +1,6 @@
 var Post = require('../../models/post')
 var User = require('../../models/user')
-var id = null
+var user_id = null
 
 var router = require('express').Router()
 
@@ -11,10 +11,10 @@ router.get('/', function(req, res, next) {
 	}
 	User.find({username: req.auth.username}, {type: '_id', limit: 1}).exec(function(err, result){
 		if (err) {return next(err)}
-		id = result[0]._id
+		user_id = result[0]._id
 	})
 
-	Post.find({username: id}, {_id: 0})
+	Post.find({username: user_id})
 	    .sort('-date')
 	    .populate({path: 'username', select: 'username'})
 	    .exec(function(err, posts) {
@@ -36,6 +36,7 @@ router.post('/', function(req, res, next) {
 })
 
 router.put('/', function(req, res, next) {
+	console.log(req.body)
 	Post.remove({_id: req.body.id })
 		.exec(function(err) {
 			if (err) { return next (err) }
