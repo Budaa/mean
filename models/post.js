@@ -1,8 +1,11 @@
 var db = require('../db')
+// var userSchema = require('./user')
+// var User = db.model('User', userSchema);
 
 var Post = db.model('Post', {
 	username: {
-		type: String,
+		type: db.Schema.ObjectId,
+		ref: 'User',
 		required: true
 	},
 	body: {

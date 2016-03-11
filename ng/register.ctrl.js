@@ -1,5 +1,5 @@
 angular.module('app')
-.controller('RegisterCtrl', function($scope, UserSvc){
+.controller('RegisterCtrl', function($scope, UserSvc, $location){
 	$scope.register = function(username, password, password2){
 		if (!username) {
 			$scope.registerError = "Please, select your username."
@@ -13,10 +13,12 @@ angular.module('app')
 		UserSvc.createUser(username, password)
 			.then(function(user) {
 				$scope.$emit('login', user.data)
+				$location.path('/')
 		}, function(err) {
 			$scope.registerError = err.data
 			$scope.username = ''
 			$scope.password = ''
+			$scope.password2 = ''
 		})
 	} 
 })

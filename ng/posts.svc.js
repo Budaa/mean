@@ -1,8 +1,8 @@
 angular.module('app')
 	.service('PostsSvc', function($http){
 
-		this.fetch = function() { 
-			return $http.get('/api/posts')
+		this.fetch = function(id) { 
+			return $http.get('/api/posts', id)
 		}
 		this.create = function(post) {
 			return $http.post('/api/posts', post)

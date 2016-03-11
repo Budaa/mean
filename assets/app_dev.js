@@ -39,7 +39,7 @@ angular.module('app')
 	$scope.addPost = function() {
 		if($scope.postBody) {
 			PostsSvc.create({
-				username: $scope.currentUser.username,
+				username: $scope.currentUser._id,
 				body: $scope.postBody
 
 			}).success(function(post) {
@@ -73,6 +73,7 @@ angular.module('app')
 			return $http.get('/api/posts')
 		}
 		this.create = function(post) {
+			console.log(post)
 			return $http.post('/api/posts', post)
 		}
 
@@ -84,7 +85,7 @@ angular.module('app')
 
 
 angular.module('app')
-.controller('RegisterCtrl', function($scope, UserSvc){
+.controller('RegisterCtrl', function($scope, UserSvc, $location){
 	$scope.register = function(username, password, password2){
 		if (!username) {
 			$scope.registerError = "Please, select your username."
@@ -98,10 +99,12 @@ angular.module('app')
 		UserSvc.createUser(username, password)
 			.then(function(user) {
 				$scope.$emit('login', user.data)
+				$location.path('/')
 		}, function(err) {
 			$scope.registerError = err.data
 			$scope.username = ''
 			$scope.password = ''
+			$scope.password2 = ''
 		})
 	} 
 })

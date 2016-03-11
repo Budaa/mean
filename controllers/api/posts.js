@@ -1,4 +1,6 @@
 var Post = require('../../models/post')
+var User = require('../../models/user')
+var id = null
 
 var router = require('express').Router()
 
@@ -7,8 +9,14 @@ router.get('/', function(req, res, next) {
 	if(!req.auth) {
 		return res.status(401).send({status:401, message: 'Filed to log in.'});
 	}
-	Post.find({username: req.auth.username})
+	User.find({username: req.auth.username}, {type: '_id', limit: 1}).exec(function(err, result){
+		if (err) {return next(err)}
+		id = result[0]._id
+	})
+
+	Post.find({username: id}, {_id: 0})
 	    .sort('-date')
+	    .populate({path: 'username', select: 'username'})
 	    .exec(function(err, posts) {
 			if ( err ) { return next(err) }
 		    res.json(posts)
@@ -18,9 +26,9 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
 	var post = new Post({
-		body: req.body.body
+		body: req.body.body,
+		username: req.body.username
 	})
-	post.username = req.auth.username
 	post.save(function(err, post) {
 		if (err) { return next(err) }
 		res.json(201, post)

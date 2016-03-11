@@ -3,10 +3,11 @@ angular.module('app')
 	$scope.addPost = function() {
 		if($scope.postBody) {
 			PostsSvc.create({
-				username: $scope.currentUser.username,
+				username: $scope.currentUser._id,
 				body: $scope.postBody
 
 			}).success(function(post) {
+				post.username = {username: $scope.currentUser.username}
 				$scope.posts.unshift(post)
 				$scope.postBody = null
 			})
@@ -17,8 +18,8 @@ angular.module('app')
 		PostsSvc.deletePost({id: id}).success(function(){
 			alert('Post has been deleted')
 			$scope.posts.splice(index, 1)
-		}).error(function(er){
-			console.log(er)
+		}).error(function(err){
+			console.log(err)
 		})
 	}
 
