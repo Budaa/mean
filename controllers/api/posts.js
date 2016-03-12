@@ -36,7 +36,6 @@ router.post('/', function(req, res, next) {
 })
 
 router.put('/', function(req, res, next) {
-	console.log(req.body)
 	Post.remove({_id: req.body.id })
 		.exec(function(err) {
 			if (err) { return next (err) }
