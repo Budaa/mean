@@ -51,6 +51,7 @@ angular.module('app')
 	}
 
 	$scope.removePost = function(id, index) {
+		console.log(id)
 		PostsSvc.deletePost({id: id}).success(function(){
 			alert('Post has been deleted')
 			$scope.posts.splice(index, 1)
@@ -61,6 +62,7 @@ angular.module('app')
 
 	PostsSvc.fetch().success(function(posts) {
 		$scope.posts = posts
+			console.log($scope.posts)
 	}).error(function(){
 		$scope.postserr = "Please log in!"
 	})

@@ -11,7 +11,7 @@ angular.module('app')
 	})
 	$scope.logout = function() {
 		delete $scope.currentUser
-		delete $scope.posts
+		delete $scope.post
 		delete window.localStorage.token
 		UserSvc.logout()
 	}
