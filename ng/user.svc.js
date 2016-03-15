@@ -27,6 +27,7 @@ angular.module('app')
 
 	svc.logout = function(){
 		$http.defaults.headers.common['X-Auth'] = ''
+		
 		$location.path('/login')
 	}
 

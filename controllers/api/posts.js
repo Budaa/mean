@@ -1,9 +1,10 @@
 var Post = require('../../models/post')
 var User = require('../../models/user')
-var user_id = null
+var websockets = require('../../websockets')
 
 var router = require('express').Router()
 
+var user_id = null
 
 router.get('/', function(req, res, next) {
 	if(!req.auth) {
@@ -31,6 +32,7 @@ router.post('/', function(req, res, next) {
 	})
 	post.save(function(err, post) {
 		if (err) { return next(err) }
+		websockets.broadcast('new_post', post)
 		res.json(201, post)
 	})
 })
