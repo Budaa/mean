@@ -13,10 +13,14 @@
 		<div class="container">
 			<ul class="nav navbar-nav">
 				<li><a href="/#/">Posts</a></li>
-				<li><a href="/#/register">Register</a></li>
-				<li><a href="/#/login">Login</a></li>
+				<li ng-if="!currentUser" ><a class="register" href="/#/register">Register</a></li>
+				<li ng-if="!currentUser"><a class="login" href="/#/login">Login</a></li>
 			</ul>
-			<p ng-if="currentUser" class="navbar-text navbar-right">Signed in ass {{currentUser.username}}<span style="color:red; cursor:pointer;" ng-if="currentUser" ng-click="logout()"> Logout</span></p>
+			
+			<p ng-if="currentUser" class="navbar-text navbar-right">
+				Signed in ass {{currentUser.username}}
+				<span style="color:red; cursor: pointer;" ng-click="logout()" class="logout">Logout</span>
+			</p>
 
 		</div>
 	</nav>
