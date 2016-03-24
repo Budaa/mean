@@ -7,9 +7,8 @@
     "type": "git",
     "url": "https://github.com/Budaa/mean_tutorial.git"
   },
-
   "scripts": {
-    "test": "mocha"
+    "test": "./node_modules/.bin/mocha && ./node_modules/.bin/protractor"
   },
   "dependencies": {
     "bcrypt": "^0.8.5",
@@ -29,11 +28,19 @@
     "ws": "^1.0.1"
   },
   "devDependencies": {
+    "blanket": "^1.2.2",
     "chai": "^3.5.0",
     "chai-as-promised": "^5.2.0",
     "gulp-uglify": "https://github.com/floridoo/gulp-uglify/tarball/sourcemap_fix",
+    "jsonwebtoken": "^5.7.0",
+    "karma": "^0.13.22",
+    "karma-chai": "^0.1.0",
+    "karma-mocha": "^0.2.2",
+    "karma-phantomjs-launcher": "^1.0.0",
     "mocha": "^2.4.5",
     "morgan": "^1.7.0",
-    "protractor": "^3.1.1"
+    "phantomjs-prebuilt": "^2.1.6",
+    "protractor": "^3.1.1",
+    "supertest": "^1.2.0"
   }
 }
