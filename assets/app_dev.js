@@ -71,7 +71,7 @@ angular.module('app')
 
 
 angular.module('app')
-	.service('PostsSvc', function($http){
+	.service('PostsSvc', ['$http', function($http){
 
 		this.fetch = function(id) { 
 			return $http.get('/api/posts', id)
@@ -84,7 +84,7 @@ angular.module('app')
 			return $http.put('/api/posts', id)
 
 		}
-	})
+	}])
 
 
 angular.module('app')
